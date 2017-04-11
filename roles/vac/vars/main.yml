@@ -1,0 +1,6 @@
+vac_space: vac.example.cc
+vac_factories: testnode001.example.cc
+vac_memory: 2048
+vac_disk: 40
+vac_lvm: vac_lvm
+vac_proxy: testsquid.example.cc

@@ -1,0 +1,19 @@
+- include: libvirt.yml
+- include: install.yml
+- include: centos7-fix.yml
+
+## Optional - adds ssh keys to root user to allow access to
+## the VAC VMs when instantiated
+- name: Auto generate ssh keys for VM access
+  user:
+       name: root
+       generate_ssh_key: yes
+
+# Copy across master vac.conf file
+- name: Copy vac.conf from template
+  template:
+    src: vac.conf.j2
+    dest: /etc/vac.conf
+    owner: root
+    group: root
+    mode: 0644 

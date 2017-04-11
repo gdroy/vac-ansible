@@ -1,0 +1,21 @@
+## Centos7 install net-tools, hard dependance on ifconfig
+- name: Install net-tools as a VAC dependancy
+  yum: 
+      name: net-tools
+      state: latest
+
+
+## Centos7 modprobe dummy, activate dummy network driver
+- name: Enable dummy network interface
+  modprobe:
+    name: dummy
+    state: present
+
+- name: Ensures dummy network persists beyond reboots
+  copy:
+    src: dummy.conf
+    dest: /etc/modules-load.d/dummy.conf
+    owner: root
+    group: root
+    mode: 0644
+

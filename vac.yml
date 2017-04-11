@@ -1,0 +1,4 @@
+- hosts: vac
+  roles:
+    - igtf-ca
+    - vac

@@ -1,0 +1,29 @@
+## Unused at present as onl SL6 RPMs exist via the repository
+#- name: Add Vac Repository
+#  yum_repository:
+#        name: VAC
+#        description: GridPP VAC Repository 
+#        baseurl: http://repo.gridpp.ac.uk/vacproject/vac/current/RPMS
+
+
+## We pre-build our own VAC RPMs from the latest release to allow
+## execution on CentOS7 and Python2.7
+- name: copy rpms to /usr/local/src
+  copy:
+       src: '{{ item.src }}'
+       dest: '{{ item.dest }}'
+       owner: root
+       group: root
+       mode: 0755
+  with_items:
+       - { src: 'vac-02.00.00-1.noarch.rpm', dest: '/usr/local/src/' }
+       - { src: 'vac-command-02.00.00-1.noarch.rpm', dest: '/usr/local/src/' }
+
+- name: Install Vac
+  yum: 
+      name: '{{ item }}'
+      state: present 
+  with_items:
+      - /usr/local/src/vac-02.00.00-1.noarch.rpm
+      - /usr/local/src/vac-command-02.00.00-1.noarch.rpm
+

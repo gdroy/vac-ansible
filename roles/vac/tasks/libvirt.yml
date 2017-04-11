@@ -1,0 +1,15 @@
+- name: Install required Libvirt packages
+  yum: 
+      name: '{{ item }}'
+      state: latest
+  with_items:
+    - libvirt
+    - libvirt-client
+    - libvirt-python
+    - qemu-kvm
+
+- name: Start and Enable Libvirtd
+  service: 
+    name: libvirtd
+    enabled: true
+    state: started    

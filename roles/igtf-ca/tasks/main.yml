@@ -1,0 +1,26 @@
+- name: Add EGI-trustanchors repository
+  yum_repository:
+    name: EGI-trustanchors
+    description: EGI-trustanchors
+    baseurl: http://repository.egi.eu/sw/production/cas/1/current/
+    gpgkey: http://repository.egi.eu/sw/production/cas/1/GPG-KEY-EUGridPMA-RPM-3
+    gpgcheck: yes
+
+- name: Install lcg-CA
+  yum:
+      name: lcg-CA
+      state: latest
+
+- name: Install fetch-crl
+  yum:
+      name: fetch-crl
+      state: latest
+
+- name: Enable fetch-crl services
+  service: 
+      name: '{{ item }}'
+      state: started
+      enabled: yes
+  with_items:
+      - fetch-crl-cron
+      # - fetch-crl-boot (Removed as downloads on every ansible run)

@@ -1,0 +1,66 @@
+#
+# Example /etc/vac.conf file for Vac
+#
+# See http://www.gridpp.ac.uk/vac/ and the Vac Admin Guide in 
+# /var/lib/vac/doc/ for more about Vac and how to use this file.
+#
+# You must replace domain names ending in .example.com in 
+# vac_space and factories with the domain name of your own site.
+#
+# Andrew.McNab@cern.ch  January 2015
+#
+
+[settings]
+# Name of this vac space. Should be a DNS-like name, and will be needed to
+# when referring to this vac space as a virtual CE in other systems.
+vac_space = {{ vac_space }}
+
+# A list of all the factory machines in this space. To add more factories,
+# add them to the factories= line, separated by spaces. You can use white
+# space characters at the start of the next line to continue the factories= 
+# assignment. This option must include the fully qualified hostname of this
+# factory machine itself.
+factories = {{ vac_factories }}
+
+# MiB of memory allocated to each VM.
+mb_per_machine = {{ vac_memory }}
+
+# Setting this to zero disables the creation or use of logical volumes in
+# vac_volume_group. For production, remove this option or set it to 
+# something like 40
+
+disk_gb_per_processor = {{ vac_disk }}
+volume_group = {{ vac_lvm }}
+
+# The value of this option is included in the user_data file given to the
+# VM. It must be set to the URL of an HTTP cache you have access to. If
+# you are already using cvmfs for grid worker nodes, you can use the same
+# value.
+#
+user_data_option_cvmfs_proxy = http://{{ vac_proxy }}:3128
+
+# This ssh key will be enabled in authorized_keys inside the VM so you can
+# get in as root with ssh.
+root_public_key = /root/.ssh/id_rsa.pub
+
+[machinetype example]
+# Tells Vac what type of root_image you are using for this machinetype
+machine_model = cernvm3
+
+# This is an image file of the correct type for your hypervisor (please use
+# KVM) You can get CERNVM images from http://cernvm.cern.ch/portal/downloads
+root_image = https://www.gridpp.ac.uk/vac/example/cernvm3.iso
+
+# The user_data file contextualizes the VM and tells it what to do
+user_data = https://www.gridpp.ac.uk/vac/example/user_data
+
+# Timings, see vac.conf(5)
+backoff_seconds=600
+fizzle_seconds=600
+max_wallclock_seconds=86400
+
+# Only one VM type defined so this value doesn't matter. If more than one
+# machinetype section exists then the shares will be normalized to total 100% 
+# by Vac anyway. 
+target_share = 1.0
+
